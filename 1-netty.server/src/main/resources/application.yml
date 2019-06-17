@@ -16,3 +16,9 @@ so:
   keepalive:  true
   # Netty TCP层接收链接的缓冲池的最大个数
   backlog: 100
+
+netty:
+  socket:
+    response:
+      #netty 验证长度文本长度限制
+      length: 8

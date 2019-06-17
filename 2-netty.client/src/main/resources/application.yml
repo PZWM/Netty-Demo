@@ -1,0 +1,6 @@
+
+netty:
+  socket:
+    response:
+      #netty 验证长度文本长度限制
+      length: 8
