@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.io.UnsupportedEncodingException;
 import java.net.InetAddress;
 
 /**
@@ -52,13 +53,13 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> {
             if (length != (msg.length() - RESPONSE_LENGTH)) {
                 // 将表示报文长度的字段截掉
                 msg = msg.substring(RESPONSE_LENGTH);
-                msg="error msg is:" + msg;
+                msg = "error msg is:" + msg;
                 msg = String.format("%08d", msg.length()) + msg;
                 ctx.channel().writeAndFlush(msg);
                 return;
             }
 
-           msg= "Your msg is:" + msg;
+            msg = "Your msg is:" + msg;
             msg = String.format("%08d", msg.length()) + msg;
             ctx.channel().writeAndFlush(msg);
             log.info("return msg:" + msg);
@@ -69,6 +70,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> {
 
     /**
      * 这里是新连接接入时，会由服务发出的消息
+     *
      * @param ctx
      * @throws Exception
      */
@@ -77,9 +79,9 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> {
 
         log.info("RamoteAddress : " + ctx.channel().remoteAddress() + " active !");
 
-        String msg="Welcome to " + InetAddress.getLocalHost().getHostName() + " service!\n";
+        String msg = "Welcome to " + InetAddress.getLocalHost().getHostName() + " service!\n";
 
-        msg=MyStringUtil.addLenth(msg);
+        msg = MyStringUtil.addLenth(msg);
 
         ctx.channel().writeAndFlush(msg);
 
