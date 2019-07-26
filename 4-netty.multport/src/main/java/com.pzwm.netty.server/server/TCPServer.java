@@ -21,8 +21,15 @@ public class TCPServer {
     private ServerBootstrap b;
 
     @Autowired
+    @Qualifier("OtherServerBootstrap")
+    private ServerBootstrap a;
+
+    @Autowired
     @Qualifier("tcpSocketAddress")
     private InetSocketAddress[] tcpPorts;
+    @Autowired
+    @Qualifier("otherTcpSocketAddress")
+    private InetSocketAddress[] otherPorts;
 
     private ChannelFuture serverChannelFuture;
 
@@ -31,8 +38,14 @@ public class TCPServer {
         for (InetSocketAddress tcpPort :
                 tcpPorts) {
 
-            System.out.println("Starting server at " + tcpPort);
+            System.out.println("Starting server1 at " + tcpPort);
             serverChannelFuture = b.bind(tcpPort).sync();
+        }
+        for (InetSocketAddress tcpPort :
+                otherPorts) {
+
+            System.out.println("Starting server2 at " + tcpPort);
+            serverChannelFuture = a.bind(tcpPort).sync();
         }
     }
 

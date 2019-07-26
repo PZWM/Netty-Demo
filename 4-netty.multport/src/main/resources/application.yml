@@ -3,10 +3,12 @@
 #tcp监听的端口
 tcp:
   ports:
-  - 7001
-  - 7002
-  - 7003
-
+    - 7001
+    - 7002
+    - 7003
+  others:
+    - 7004
+    - 7005
 # bossGroup的线程数
 boss:
   thread:

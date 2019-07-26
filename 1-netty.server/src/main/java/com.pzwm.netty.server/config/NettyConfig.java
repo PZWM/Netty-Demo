@@ -46,7 +46,7 @@ public class NettyConfig {
 
     @Autowired
     @Qualifier("springProtocolInitializer")
-    private StringProtocolInitalizer protocolInitalizer;
+    private StringProtocolInitalizer protocolInitializer;
     //bootstrap配置
     @SuppressWarnings("unchecked")
     @Bean(name = "serverBootstrap")
@@ -54,7 +54,7 @@ public class NettyConfig {
         ServerBootstrap b = new ServerBootstrap();
         b.group(bossGroup(), workerGroup())
                 .channel(NioServerSocketChannel.class)
-                .childHandler(protocolInitalizer);
+                .childHandler(protocolInitializer);
         Map<ChannelOption<?>, Object> tcpChannelOptions = tcpChannelOptions();
         Set<ChannelOption<?>> keySet = tcpChannelOptions.keySet();
         for (@SuppressWarnings("rawtypes")

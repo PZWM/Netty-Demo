@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @Qualifier("springProtocolInitializer")
-public class StringProtocolInitalizer extends ChannelInitializer<SocketChannel> {
+public class StringProtocolInitializer extends ChannelInitializer<SocketChannel> {
 
     @Autowired
     StringDecoder stringDecoder;

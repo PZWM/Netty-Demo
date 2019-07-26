@@ -1,6 +1,6 @@
 package com.pzwm.netty.server.config;
 
-import com.pzwm.netty.server.handles.StringProtocolInitalizer;
+import com.pzwm.netty.server.handles.StringProtocolInitializer;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -44,7 +44,7 @@ public class NettyConfig {
 
     @Autowired
     @Qualifier("springProtocolInitializer")
-    private StringProtocolInitalizer protocolInitalizer;
+    private StringProtocolInitializer protocolInitializer;
     //bootstrap配置
     @SuppressWarnings("unchecked")
     @Bean(name = "serverBootstrap")
@@ -52,7 +52,22 @@ public class NettyConfig {
         ServerBootstrap b = new ServerBootstrap();
         b.group(bossGroup(), workerGroup())
                 .channel(NioServerSocketChannel.class)
-                .childHandler(protocolInitalizer);
+                .childHandler(protocolInitializer);
+        Map<ChannelOption<?>, Object> tcpChannelOptions = tcpChannelOptions();
+        Set<ChannelOption<?>> keySet = tcpChannelOptions.keySet();
+        for (@SuppressWarnings("rawtypes")
+                ChannelOption option : keySet) {
+            b.option(option, tcpChannelOptions.get(option));
+        }
+        return b;
+    }
+    @SuppressWarnings("unchecked")
+    @Bean(name = "OtherServerBootstrap")
+    public ServerBootstrap otherBootstrap() {
+        ServerBootstrap b = new ServerBootstrap();
+        b.group(bossGroup(), workerGroup())
+                .channel(NioServerSocketChannel.class)
+                .childHandler(protocolInitializer);
         Map<ChannelOption<?>, Object> tcpChannelOptions = tcpChannelOptions();
         Set<ChannelOption<?>> keySet = tcpChannelOptions.keySet();
         for (@SuppressWarnings("rawtypes")
@@ -75,6 +90,15 @@ public class NettyConfig {
     @Bean(name = "tcpSocketAddress")
     public InetSocketAddress[] tcpPort() {
         List<Integer> ports=portConfig.getPorts();
+        InetSocketAddress[] inetSocketAddresses=new   InetSocketAddress[ports.size()] ;
+        for (int i = 0; i < ports.size(); i++) {
+            inetSocketAddresses[i]=new InetSocketAddress(ports.get(i));
+        }
+        return  inetSocketAddresses;
+    }
+    @Bean(name = "otherTcpSocketAddress")
+    public InetSocketAddress[] otherPort() {
+        List<Integer> ports=portConfig.getOthers();
         InetSocketAddress[] inetSocketAddresses=new   InetSocketAddress[ports.size()] ;
         for (int i = 0; i < ports.size(); i++) {
             inetSocketAddresses[i]=new InetSocketAddress(ports.get(i));
