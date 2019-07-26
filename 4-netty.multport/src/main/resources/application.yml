@@ -1,0 +1,28 @@
+#不能用localhost,否则启动报异常:Unresolved address
+
+#tcp监听的端口
+tcp:
+  ports:
+  - 7001
+  - 7002
+  - 7003
+
+# bossGroup的线程数
+boss:
+  thread:
+    count: 2
+# worker的线程数
+worker:
+  thread:
+    count: 100
+#是否使用长连接
+so:
+  keepalive:  true
+  # Netty TCP层接收链接的缓冲池的最大个数
+  backlog: 100
+
+netty:
+  socket:
+    response:
+      #netty 验证长度文本长度限制
+      length: 8

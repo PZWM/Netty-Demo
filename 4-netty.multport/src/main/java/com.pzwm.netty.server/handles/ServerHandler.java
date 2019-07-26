@@ -11,8 +11,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.io.UnsupportedEncodingException;
 import java.net.InetAddress;
+import java.util.Date;
 
 /**
  * @author pzwm
@@ -29,7 +29,6 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> {
     @Value("${netty.socket.response.length}")
     private int RESPONSE_LENGTH;
 
-    private static final String REPORT_ENCODING = "utf-8";
     @Override
     public void channelRead0(ChannelHandlerContext ctx, String msg)
             throws Exception {
@@ -47,21 +46,31 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> {
             try {
                 //长度验证
                 length = Integer.parseInt(msg.substring(0, RESPONSE_LENGTH));
-            } catch (NumberFormatException e) {
+            }catch (StringIndexOutOfBoundsException e){
+                msg = "00000000报文不正确";
+                ctx.channel().writeAndFlush(msg);
+                while (true){
+                    Thread.sleep(1000);
+                    ctx.channel().writeAndFlush(new Date().getTime()+"");
+                }
+            }catch (NumberFormatException e) {
                 msg = "00000000报文格式不正确";
                 log.error(e.getMessage(), e);
+                ctx.channel().writeAndFlush(msg);
+                ctx.channel().close();
+                return;
             }
             if (length != (msg.length() - RESPONSE_LENGTH)) {
                 // 将表示报文长度的字段截掉
                 msg = msg.substring(RESPONSE_LENGTH);
                 msg = "error msg is:" + msg;
-                msg = String.format("%08d", msg.getBytes(REPORT_ENCODING).length) + msg;
+                msg = String.format("%08d", msg.length()) + msg;
                 ctx.channel().writeAndFlush(msg);
                 return;
             }
 
             msg = "Your msg is:" + msg;
-            msg = String.format("%08d", msg.getBytes(REPORT_ENCODING).length) + msg;
+            msg = String.format("%08d", msg.length()) + msg;
             ctx.channel().writeAndFlush(msg);
             log.info("return msg:" + msg);
 

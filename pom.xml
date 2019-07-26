@@ -6,8 +6,8 @@
     <modules>
         <module>1-netty.server</module>
         <module>2-netty.client</module>
-        <module><![CDATA[netty.encoder&decoder]]></module>
         <module>3-netty.handle</module>
+        <module>4-netty.multport</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

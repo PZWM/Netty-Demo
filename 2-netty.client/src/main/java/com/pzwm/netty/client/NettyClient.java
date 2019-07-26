@@ -24,6 +24,8 @@ public class NettyClient {
     // 服务器的端口
     private int port;
 
+    private static final String REPORT_ENCODING = "utf-8";
+
     public NettyClient(String ip, int port) {
         this.ip = ip;
         this.port = port;
@@ -52,14 +54,14 @@ public class NettyClient {
 
 
         String reqStr = "这是我的第一条消息";
-        reqStr = String.format("%08d", reqStr.length()) + reqStr;
-        cf.channel().writeAndFlush(Unpooled.copiedBuffer(reqStr.getBytes("utf-8")));
+        reqStr = String.format("%08d", reqStr.getBytes(REPORT_ENCODING).length) + reqStr;
+        cf.channel().writeAndFlush(Unpooled.copiedBuffer(reqStr.getBytes(REPORT_ENCODING)));
         reqStr = "这是我的第二条消息";
-        reqStr = String.format("%08d", reqStr.length()) + reqStr;
-        cf.channel().writeAndFlush(Unpooled.copiedBuffer(reqStr.getBytes("utf-8")));
+        reqStr = String.format("%08d",  reqStr.getBytes(REPORT_ENCODING).length) + reqStr;
+        cf.channel().writeAndFlush(Unpooled.copiedBuffer(reqStr.getBytes(REPORT_ENCODING)));
         reqStr = "这是我的第三条消息";
-        reqStr = String.format("%08d", reqStr.length()) + reqStr;
-        cf.channel().writeAndFlush(Unpooled.copiedBuffer(reqStr.getBytes("utf-8")));
+        reqStr = String.format("%08d",  reqStr.getBytes(REPORT_ENCODING).length) + reqStr;
+        cf.channel().writeAndFlush(Unpooled.copiedBuffer(reqStr.getBytes(REPORT_ENCODING)));
 
         // 等待直到连接中断
         cf.channel().closeFuture().sync();
