@@ -9,21 +9,24 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>netty.multport</artifactId>
+    <artifactId>netty.5x</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <dependencies>
-        <dependency>
-            <groupId>com.pzwm</groupId>
-            <artifactId>netty</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-configuration-processor</artifactId>
-            <optional>true</optional>
-        </dependency>
-    </dependencies>
 
+    <dependencies>
+
+        <!-- https://mvnrepository.com/artifact/io.netty/netty-all -->
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-all</artifactId>
+            <version>5.0.0.Alpha2</version>
+            <exclusions>
+            <exclusion>  <!-- declare the exclusion here -->
+                <groupId>io.netty</groupId>
+                <artifactId>netty-all</artifactId>
+            </exclusion>
+        </exclusions>
+        </dependency>
+
+    </dependencies>
 
 </project>

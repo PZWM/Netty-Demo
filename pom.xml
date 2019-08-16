@@ -8,6 +8,8 @@
         <module>2-netty.client</module>
         <module>3-netty.handle</module>
         <module>4-netty.multport</module>
+        <module>5-netty.core</module>
+        <module>6-netty.5x</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -35,6 +37,12 @@
             <groupId>io.netty</groupId>
             <artifactId>netty-all</artifactId>
             <version>4.1.36.Final</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>

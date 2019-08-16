@@ -1,6 +1,6 @@
 #不能用localhost,否则启动报异常:Unresolved address
 
-#tcp监听的端口
+#tcp监听的端口，注意-后面有一个空格
 tcp:
   ports:
     - 7001

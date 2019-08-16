@@ -33,4 +33,10 @@ tcp:
 ```
 针对两个不同的（该项目中并没有什么不同的处理，如果需要在NettyConfig中OtherServerBootstrap去改变处理逻辑）服务分别作自己逻辑处理。
 
+### 5-netty.core
+尝试写出支持多种报文协议的处理服务
+
+### 6-netty.5x
+使用netty5.x版本，该版本作者已经声明不更新将分支移除master，作者声明：https://github.com/netty/netty/issues/4466。建议不要使用
+
 

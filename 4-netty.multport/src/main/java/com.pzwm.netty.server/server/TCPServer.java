@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import java.net.InetSocketAddress;
+import java.util.List;
 
 /**
  * @author pzwm
@@ -31,7 +32,7 @@ public class TCPServer {
     @Qualifier("otherTcpSocketAddress")
     private InetSocketAddress[] otherPorts;
 
-    private ChannelFuture serverChannelFuture;
+    private List<ChannelFuture> serverChannelFutures;
 
     @PostConstruct
     public void start() throws Exception {
@@ -39,19 +40,20 @@ public class TCPServer {
                 tcpPorts) {
 
             System.out.println("Starting server1 at " + tcpPort);
-            serverChannelFuture = b.bind(tcpPort).sync();
+            serverChannelFutures.add(b.bind(tcpPort).sync());
         }
         for (InetSocketAddress tcpPort :
                 otherPorts) {
 
             System.out.println("Starting server2 at " + tcpPort);
-            serverChannelFuture = a.bind(tcpPort).sync();
+            serverChannelFutures.add(a.bind(tcpPort).sync());
         }
     }
 
     @PreDestroy
     public void stop() throws Exception {
-        serverChannelFuture.channel().closeFuture().sync();
+        for (ChannelFuture serverChannelFuture : serverChannelFutures)
+            serverChannelFuture.channel().close().sync();
     }
 
     public ServerBootstrap getB() {
